@@ -99,6 +99,12 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/books";
+    }
+
+
     @GetMapping("/index")
     public String log(){
         return "redirect:/books";
@@ -134,7 +140,7 @@ public class MainController {
 
         }
 
-        return "redirect:/register?error";
+        return "redirect:/register?error"; 
     }
 
 
