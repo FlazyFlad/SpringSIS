@@ -1,11 +1,16 @@
 package com.example.springsis.Controller;
 
 import com.example.springsis.Entity.Book;
+import com.example.springsis.Entity.Image;
 import com.example.springsis.Entity.Users;
 import com.example.springsis.Repository.BookRepository;
+import com.example.springsis.Repository.ImageRepository;
 import com.example.springsis.Service.BookServiceInterface;
 import com.example.springsis.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +18,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -25,6 +35,9 @@ public class MainController {
 
     @Autowired
     BookRepository SecurityConfig;
+    @Autowired
+    ImageRepository imageRepository;
+
 
 
     @Autowired
@@ -53,8 +66,8 @@ public class MainController {
     }
 
     @PostMapping(value = "/books")
-    public String saveBook(@ModelAttribute("book") Book book){
-        bookService.saveBook(book);
+    public String saveBook(@ModelAttribute("book") Book book, @RequestParam("file") MultipartFile file) throws IOException {
+        bookService.saveBook(book, file);
         return "redirect:/books";
     }
 
@@ -63,7 +76,7 @@ public class MainController {
     public String updateBookForm(Model model, @PathVariable("id") Long id){
         model.addAttribute("currentUser", getUserData());
         Book book1 = bookService.findById(id);
-        model.addAttribute("book", book1);
+        model.addAttribute("book1", book1);
         return "update";
     }
 
@@ -73,13 +86,18 @@ public class MainController {
         return "redirect:/books";
     }
 
-    @PostMapping("/books/update/{id}")
-    public String updateBook(@PathVariable("id") Long id, @ModelAttribute("book") Book book1){
-        Book Book2 = bookService.findById(id);
-        Book2 = book1;
-        bookService.saveBook(Book2);
-        return "redirect:/books";
-    }
+//    @PostMapping("/books/update/{id}")
+//    public String updateBook(@PathVariable("id") Long id, @RequestParam(name = "name")String name,
+//                             @RequestParam(name = "author")String author,
+//                             @RequestParam(name = "description")String description,
+//                             @RequestParam(name = "price")String price, @ModelAttribute("book1") Book book1) {
+//        Book book2 = bookService.findById(id);
+//            book2.setPrice(book1.getPrice());
+//            book2.setName(book1.getName());
+//            book2.setAuthor(book1.getAuthor());
+//            book2.setDescription(book1.getDescription());
+//        return "redirect:/books";
+//    }
 
     private boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -141,6 +159,16 @@ public class MainController {
         }
 
         return "redirect:/register?error"; 
+    }
+
+    @GetMapping("/images/{id}")
+    private ResponseEntity<?> getImageById(@PathVariable Long id) {
+        Image image = imageRepository.findById(id).orElse(null);
+        return ResponseEntity.ok()
+                .header("fileName", image.getOriginalFileName())
+                .contentType(MediaType.valueOf(image.getContentType()))
+                .contentLength(image.getSize())
+                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
     }
 
 
