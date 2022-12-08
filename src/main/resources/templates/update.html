@@ -14,14 +14,13 @@
 </head>
 <body>
 <div class="container">
-  <form th:action="@{/books/update/{id}(id=${book1.getId()})}" th:object="${book1}" method="post" enctype="multipart/form-data">
+  <form th:action="@{/books/update/{id}(id=${book1.getId()})}" th:object="${book1}" method="post">
     <div class="modal-header">
       <div class="col-xs-6">
         <h4>Edit <b>Book</b></h4>
       </div>
     </div>
     <div class="modal-body">
-      <input type="hidden" th:value="*{id}" th:field="*{id}">
       <div class="form-group">
         <label>Name</label>
         <input type="text" th:field="*{name}" name="name" class="form-control" required>

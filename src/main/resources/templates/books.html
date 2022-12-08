@@ -756,7 +756,7 @@
                                     </div>
                                     <br> <br>
                                     <div sec:authorize="hasRole('ROLE_ADMIN')" class="buttons d-flex flex-row">
-<!--                                        <a style="color:white; margin-right:5px" th:href="@{/books/update/{id}(id=${book.getId()})}" class="btn btn-success btn-block">Edit Book </a>-->
+                                        <a style="color:white; margin-right:5px" th:href="@{/books/update/{id}(id=${book.getId()})}" class="btn btn-success btn-block">Edit Book </a>
                                         <a style="color:white" th:href="@{/books/delete/{id}(id=${book.getId()})}" class="btn btn-danger btn-block">Delete Book </a>
                                     </div>
                                     <div sec:authorize="!hasRole('ROLE_ADMIN')" class="buttons d-flex flex-row">
