@@ -7,8 +7,40 @@
 </head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <body>
+    <div th:insert="styles :: styles"></div>
     <div th:fragment="header">
+        <header style="margin-top: -5px" class="page-header">
+            <div class="panel wrapper" style="margin-top: -5px"><div class="panel header">
+                <div class="header-main"><div class="pull-left">
+                    <a class="header-logo" th:href="@{/books}" title="Marwin"> <img src="https://simg.marwin.kz/media/logo/stores/3/MAR.jpg" alt="Marwin" /></a> </div><div class="pull-right"><div class="row"> <div class="block block-search"><div class="block block-title"><strong>Поиск</strong></div><div class="block block-content" id="navbarsExampleDefault"><form class="form minisearch form-inline my-2 my-lg-0" id="search_mini_form" action="https://www.marwin.kz/catalogsearch/result/" method="get"><div class="field search"><label class="label" for="search" data-role="minisearch-label"><span>Поиск</span></label> <div class="control"><input class="astrio-search-cat" type="hidden" name="search_cat" value="0"> <input class="astrio-search-stock" name="stock" type="hidden" value="3"> <input id="search" type="text" name="q" value="" placeholder="Найти товар..." class="input-text form-control mr-sm-2" maxlength="128" role="combobox" aria-haspopup="false" aria-autocomplete="both" autocomplete="off"/><div id="search_autocomplete" class="search-autocomplete"></div></div></div>
+                    </form></div></div>
 
+
+
+
+                    <div sec:authorize="isAnonymous()" class="header-fixed-wrapper"> <div class="action viewed-header-wrapper item-wrapper"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.marwin.kz/static/version1669707307/frontend/Astrio/marwin/ru_RU/images/svg-default.svg#icon-eye"></use></svg><div class="viewed-text-wrapper"><div class="viewed-text">Вы смотрели</div></div></div>
+                        <div data-block="minicart" class="minicart-wrapper" data-mage-init='{"astrioMiniCart":{}}'><a class="action showcart item-wrapper" th:href="@{/login}"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.marwin.kz/static/version1669707307/frontend/Astrio/marwin/ru_RU/images/svg-default.svg#icon-cart-custom"></use></svg><span class="counter qty empty"><span class="counter-number"></span> <span class="counter-label"></span></span>
+                            <div class="minicart-text-wrapper"><div class="cart-text">Войти</div></div></a>
+                            <a class="action gotocheckout" style="display: none;" th:href="@{/login}"></a></div></div></div> </div>
+
+
+                    <div sec:authorize="isAuthenticated()" class="header-fixed-wrapper"> <div class="action viewed-header-wrapper item-wrapper"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.marwin.kz/static/version1669707307/frontend/Astrio/marwin/ru_RU/images/svg-default.svg#icon-eye"></use></svg><div class="viewed-text-wrapper"><div class="viewed-text">Вы смотрели</div></div></div>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="wishlist-header-wrapper " data-bind="scope: 'wishlist'"><a class="action showwishlist item-wrapper" th:href="@{/books/new}" data-toggle="modal"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.marwin.kz/static/version1669707307/frontend/Astrio/marwin/ru_RU/images/svg-default.svg#wishlist-icon"></use></svg><div class="counter-wrapper"><span data-bind="text: wishlist().counter" class="counter qty"></span></div><div class="wishlist-text-wrapper"><div class="wishlist-text">Добавить книгу</div></div></a> <div class="block block-wishlist" style="display:none;"><div class="empty"><strong>Список пуст<strong></strong></strong></div></div></div>
+
+                        <div data-block="minicart" class="minicart-wrapper" data-mage-init='{"astrioMiniCart":{}}'><a class="action showcart item-wrapper" th:href="@{/logout}"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.marwin.kz/static/version1669707307/frontend/Astrio/marwin/ru_RU/images/svg-default.svg#icon-cart-custom"></use></svg><span class="counter qty empty"><span class="counter-number"></span> <span class="counter-label"></span></span>
+                            <div class="minicart-text-wrapper"><div class="cart-text">Выйти</div></div></a>
+                            <a class="action gotocheckout" style="display: none;" th:href="@{/logout}"></a></div>
+
+                    </div></div> </div>
+
+
+
+                <style xml="space">
+                    .product-of-the-day img {
+                        max-height: 65px;
+                    }
+                </style></div></div></div></div> <a class="action skip contentarea" href="#contentarea"><span> Skip to Content</span></a></div>   </header><main id="maincontent" class="page-main"> <a id="contentarea" tabindex="-1"></a>
 
     </div>
 </body>

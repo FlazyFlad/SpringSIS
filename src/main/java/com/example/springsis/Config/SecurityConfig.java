@@ -13,28 +13,42 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+/**
+ * smth.
+ */
 @Configuration
 @EnableWebMvc
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, proxyTargetClass = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+  /**
+   * smth.
+   */
+  @Autowired
     private UserService userService;
 
-
-    @Override
+  /**
+   * smth.
+   */
+  @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
-    }
+    auth.userDetailsService(userService);
+  }
 
-    @Override
+  /**
+   * smth.
+   */
+  @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+    http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/register","/books","/","/css/**", "/fonts/**", "/images/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/books/new", "/books/delete/{id}", "/books/update/{id}").hasRole("ADMIN")
+                .antMatchers("/register", "/books", "/", "/css/**", "/fonts/**", "/images/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET,
+      "/books/new", "/books/delete/{id}", "/books/update/{id}")
+                .hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/sss").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
@@ -46,12 +60,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/auth").permitAll()
                 .defaultSuccessUrl("/index");
 
-        http.logout()
+    http.logout()
                 .logoutUrl("/logout").permitAll()
                 .logoutSuccessUrl("/login");
-    }
+  }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder();}
+  /**
+   * smth.
+   */
+  @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
 }

@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "Books")
@@ -30,5 +34,23 @@ public class Book {
 
     @Column(name = "Price", nullable = false)
     private String Price;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "book")
+    private List<Image> images = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn
+    private Users user;
+    private Long previewImageId;
+    private LocalDateTime dateOfCreated;
+
+    @PrePersist
+    private void onCreate() { dateOfCreated = LocalDateTime.now(); }
+
+
+    public void addImageToProduct(Image image) {
+        image.setProduct(this);
+        images.add(image);
+    }
 
 }
